@@ -79,21 +79,21 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-LdwStudy/Intermediate/ShaderAutogen/PCD3D_ES3_1/
+Assignments/Intermediate/ShaderAutogen/PCD3D_ES3_1/
 
-LdwStudy/Intermediate/ShaderAutogen/PCD3D_SM5/
+Assignments/Intermediate/ShaderAutogen/PCD3D_SM5/
 
-LdwStudy/Intermediate/ShaderAutogen/PCD3D_SM6/
+Assignments/Intermediate/ShaderAutogen/PCD3D_SM6/
 
-LdwStudy/Saved/Logs/
+Assignments/Saved/Logs/
 
-LdwStudy/Saved/Config/WindowsEditor/
+Assignments/Saved/Config/WindowsEditor/
 
-LdwStudy/Saved/Config/WorldState/
+Assignments/Saved/Config/WorldState/
 
-LdwStudy/Saved/SourceControl/
+Assignments/Saved/SourceControl/
 
-LdwStudy/Saved/Config/CrashReportClient/UECC-Windows-F6E982564836185174FDB88E442035B8/
-LdwStudy/Intermediate/
+Assignments/Saved/Config/CrashReportClient/UECC-Windows-F6E982564836185174FDB88E442035B8/
+Assignments/Intermediate/
 
-LdwStudy/Saved/
+Assignments/Saved/
