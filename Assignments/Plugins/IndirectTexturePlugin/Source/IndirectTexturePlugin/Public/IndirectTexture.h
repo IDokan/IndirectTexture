@@ -21,8 +21,11 @@ class INDIRECTTEXTUREPLUGIN_API UIndirectTexture : public UObject
 	void CreateIndirectTexture();
 
 public:
-	UPROPERTY(EditAnywhere, Category = "Indirect Texture")
+	UPROPERTY(VisibleAnywhere, Category = "Indirect Texture")
 	UTexture2D* IndirectTexture;
+
+	UPROPERTY(EditAnywhere, Category = "Indirect Texture")
+	UTexture2D* TilesetTexture;
 
 	UPROPERTY(EditAnywhere, Category = "Indirect Texture")
 	int32 TilesetTilesCount;

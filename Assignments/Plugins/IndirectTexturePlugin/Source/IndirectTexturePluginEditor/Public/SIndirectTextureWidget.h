@@ -19,7 +19,6 @@ public:
 		: _TilesetTilesCount(1), _IndirectTextureResolution(FIntPoint(1))
 	{}
 
-	SLATE_ATTRIBUTE(Texture2D, IndirectTexture)
 	SLATE_ATTRIBUTE(int32, TilesetTilesCount)
 		SLATE_ATTRIBUTE(FIntPoint, IndirectTextureResolution)
 		SLATE_EVENT(FOnTilesetTilesCountChanged, OnTilesetTilesCountChanged)

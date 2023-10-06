@@ -4,7 +4,7 @@
 #include "IndirectTexture.h"
 
 UIndirectTexture::UIndirectTexture()
-	:IndirectTexture(nullptr), TilesetTilesCount(1), IndirectTextureResolution(1)
+	:IndirectTexture(nullptr), TilesetTexture(nullptr), TilesetTilesCount(1), IndirectTextureResolution(1)
 {
 }
 
@@ -31,7 +31,7 @@ void UIndirectTexture::CreateIndirectTexture()
 		for (int32 x = 0; x < IndirectTextureResolution.X; x++)
 		{
 			int32 CurrentPixelIndex = (y * IndirectTextureResolution.X) + x;
-			int32 TileIndex = FMath::RandRange(0, TilesetTilesCount);
+			int32 TileIndex = FMath::RandRange(0, (TilesetTilesCount * TilesetTilesCount) - 1);
 			ColorData[CurrentPixelIndex] = FColor(TileIndex, TileIndex, TileIndex);
 		}
 	}
