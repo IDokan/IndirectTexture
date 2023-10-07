@@ -22,13 +22,18 @@ TArray<FExpressionOutput>& UMaterialExpressionIndirectTextureObject::GetOutputs(
 
 int32 UMaterialExpressionIndirectTextureObject::Compile(FMaterialCompiler* Compiler, int32 OutputIndex)
 {
+	if (UVInput.Expression == nullptr || IndirectTexture == nullptr || IndirectTexture->IndirectTexture == nullptr)
+	{
+		return Compiler->Errorf(TEXT("Indirect Texture is nullptr!"));
+	}
+
 	switch (OutputIndex)
 	{
 	case 1:
 		return UVInput.Compile(Compiler);
 		break;
 	case 2:
-		return Compiler->Constant(IndirectTexture->TilesetTilesCount);
+		return Compiler->Constant2(IndirectTexture->TilesetTilesCount.X, IndirectTexture->TilesetTilesCount.Y);
 		break;
 	case 3:
 		return Compiler->Constant2(IndirectTexture->IndirectTextureResolution.X, IndirectTexture->IndirectTextureResolution.Y);
@@ -37,16 +42,11 @@ int32 UMaterialExpressionIndirectTextureObject::Compile(FMaterialCompiler* Compi
 		break;
 	}
 
-	if (IndirectTexture == nullptr || IndirectTexture->IndirectTexture == nullptr)
-	{
-		return Compiler->Errorf(TEXT("Indirect Texture is nullptr!"));
-	}
+	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
 
-	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_Grayscale);
+	int32 UVs = UVInput.Compile(Compiler);
 
-	int32 UVs = Compiler->TextureCoordinate(0, false, false);
-
-	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_Color);
+	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
 }
 
 UTexture* UMaterialExpressionIndirectTextureObject::GetReferencedTexture() const

@@ -28,7 +28,7 @@ public:
 	UTexture2D* TilesetTexture;
 
 	UPROPERTY(EditAnywhere, Category = "Indirect Texture")
-	int32 TilesetTilesCount;
+	FIntPoint TilesetTilesCount;
 
 	UPROPERTY(EditAnywhere, Category = "Indirect Texture")
 	FIntPoint IndirectTextureResolution;

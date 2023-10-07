@@ -38,17 +38,23 @@ int32 UMaterialExpressionIndirectTextureSample::Compile(class FMaterialCompiler*
     /// Calculate size of unit tile of tileset texture
     /// </summary>
     int32 TilesetTilesCount = TilesetTilesCountInput.Compile(Compiler);
-    int32 TileIndex = Compiler->Mul(Compiler->Mul(TileIndexInput.Compile(Compiler), TilesetTilesCount), TilesetTilesCount);
+    return Compiler->Div(Compiler->Power(TilesetTilesCount, 2.2), Compiler->Constant(4.f));
+    int32 TilesetTilesColumnNum = Compiler->ComponentMask(TilesetTilesCount, 1, 0, 0, 0);
+    int32 MaxTilesCount = Compiler->Mul(TilesetTilesColumnNum, Compiler->ComponentMask(TilesetTilesCount, 0, 1, 0, 0));
+    int32 TileIndex = Compiler->Mul(TileIndexInput.Compile(Compiler), MaxTilesCount);
+    //return Compiler->Div(Compiler->Mul(TilesetTilesCount, Compiler->Constant(255.f)), MaxTilesCount);
 
-    int32 X = Compiler->Fmod(TileIndex, TilesetTilesCount);
+    int32 X = Compiler->Fmod(TileIndex, TilesetTilesColumnNum);
     int32 Y = Compiler->Div(
         Compiler->Sub(TileIndex, X)
-        , TilesetTilesCount);
+        , TilesetTilesColumnNum);
+
+    return Compiler->Mul(Compiler->Div(Compiler->Add(Compiler->ComponentMask(X, 1, 0, 0, 0), Compiler->ComponentMask(Y, 0, 1, 0, 0)), MaxTilesCount), Compiler->Constant(255.f));
     
     int32 TileSteps = Compiler->Div(Compiler->Constant(1.f), TilesetTilesCount);
 
-    int32 TileColumn = Compiler->Mul(X, TileSteps);
-    int32 TileRow = Compiler->Mul(Y, TileSteps);
+    int32 TileColumn = Compiler->Mul(X, Compiler->ComponentMask(TileSteps, 1, 0, 0, 0));
+    int32 TileRow = Compiler->Mul(Y, Compiler->ComponentMask(TileSteps, 0, 1, 0, 0));
 
     /// <summary>
     /// Calculate UV in tileset texture
@@ -66,6 +72,7 @@ int32 UMaterialExpressionIndirectTextureSample::Compile(class FMaterialCompiler*
             );
 
     int32 TilesetTextureReferenceIndex = Compiler->Texture(TilesetTexture, EMaterialSamplerType::SAMPLERTYPE_Color);
+    return IndirectUV;
     return Compiler->TextureSample(TilesetTextureReferenceIndex, IndirectUV, EMaterialSamplerType::SAMPLERTYPE_Color);
 }
 

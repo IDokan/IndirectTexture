@@ -10,11 +10,13 @@ UIndirectTexture::UIndirectTexture()
 
 void UIndirectTexture::CreateIndirectTexture()
 {
-	IndirectTexture = UTexture2D::CreateTransient(IndirectTextureResolution.X, IndirectTextureResolution.Y);
+	IndirectTexture = UTexture2D::CreateTransient(IndirectTextureResolution.X, IndirectTextureResolution.Y, PF_R32_FLOAT);
 	if (IndirectTexture == nullptr)
 	{
 		return;
 	}
+	IndirectTexture->CompressionSettings = TextureCompressionSettings::TC_Default;
+	IndirectTexture->SRGB = false;
 	IndirectTexture->AddToRoot();
 	IndirectTexture->Filter = TextureFilter::TF_Nearest;
 
@@ -26,12 +28,13 @@ void UIndirectTexture::CreateIndirectTexture()
 	}
 	FColor* ColorData = static_cast<FColor*>(Data);
 
+	const int32 MaxTilesCount = (TilesetTilesCount.X * TilesetTilesCount.Y) - 1;
 	for (int32 y = 0; y < IndirectTextureResolution.Y; y++)
 	{
 		for (int32 x = 0; x < IndirectTextureResolution.X; x++)
 		{
 			int32 CurrentPixelIndex = (y * IndirectTextureResolution.X) + x;
-			int32 TileIndex = FMath::RandRange(0, (TilesetTilesCount * TilesetTilesCount) - 1);
+			int32 TileIndex = FMath::RandRange(0, MaxTilesCount);
 			ColorData[CurrentPixelIndex] = FColor(TileIndex, TileIndex, TileIndex);
 		}
 	}
