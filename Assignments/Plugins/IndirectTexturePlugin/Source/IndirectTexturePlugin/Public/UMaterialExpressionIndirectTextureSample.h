@@ -20,6 +20,10 @@ public:
 	virtual int32 Compile(class FMaterialCompiler* Compiler, int32 OutputIndex) override;
 	virtual UTexture* GetReferencedTexture() const override;
 	virtual bool CanReferenceTexture() const override;
+
+private:
+	// Helper function calculating tile UV
+	int32 CalculateUV(class FMaterialCompiler* Compiler);
 	
 public:
 
@@ -40,4 +44,19 @@ public:
 
 	UPROPERTY()
 	FExpressionOutput RGBOutput;
+
+	UPROPERTY()
+	FExpressionOutput ROutput;
+
+	UPROPERTY()
+	FExpressionOutput GOutput;
+
+	UPROPERTY()
+	FExpressionOutput BOutput;
+
+	UPROPERTY()
+	FExpressionOutput AOutput;
+
+	UPROPERTY()
+	FExpressionOutput RGBAOutput;
 };

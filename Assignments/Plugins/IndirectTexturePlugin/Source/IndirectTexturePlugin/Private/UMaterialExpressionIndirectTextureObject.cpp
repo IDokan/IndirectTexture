@@ -6,14 +6,19 @@
 
 UMaterialExpressionIndirectTextureObject::UMaterialExpressionIndirectTextureObject()
 {
-
+	bShowOutputNameOnPin = true;
+	UVInput.InputName = TEXT("UVs");
+	TileIndexOutput.OutputName = TEXT("Tile Index");
+	UVOutput.OutputName = TEXT("UVs");
+	TilesetTilesCountOutput.OutputName = TEXT("Tileset Tiles Count");
+	IndirectTextureResolutionOutput.OutputName = TEXT("Indirect Resolution");
 }
 
 TArray<FExpressionOutput>& UMaterialExpressionIndirectTextureObject::GetOutputs()
 {
 	// TODO: insert return statement here
 	Outputs.Reset();
-	Outputs.Add(RGBOutput);
+	Outputs.Add(TileIndexOutput);
 	Outputs.Add(UVOutput);
 	Outputs.Add(TilesetTilesCountOutput);
 	Outputs.Add(IndirectTextureResolutionOutput);
@@ -42,11 +47,11 @@ int32 UMaterialExpressionIndirectTextureObject::Compile(FMaterialCompiler* Compi
 		break;
 	}
 
-	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_Data);
+	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
 
 	int32 UVs = UVInput.Compile(Compiler);
 
-	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_Data);
+	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
 }
 
 UTexture* UMaterialExpressionIndirectTextureObject::GetReferencedTexture() const
@@ -65,4 +70,9 @@ UTexture* UMaterialExpressionIndirectTextureObject::GetReferencedTexture() const
 bool UMaterialExpressionIndirectTextureObject::CanReferenceTexture() const
 {
 	return IndirectTexture != nullptr && IndirectTexture->IndirectTexture != nullptr;
+}
+
+FText UMaterialExpressionIndirectTextureObject::GetCreationName() const
+{
+	return NSLOCTEXT("UMaterialExpressionIndirectTextureObject", "IndirectTexture", "IndirectTexture");
 }

@@ -6,6 +6,7 @@
 UIndirectTexture::UIndirectTexture()
 	:IndirectTexture(nullptr), TilesetTexture(nullptr), TilesetTilesCount(1), IndirectTextureResolution(1)
 {
+	CreateIndirectTexture();
 }
 
 void UIndirectTexture::CreateIndirectTexture()

@@ -20,6 +20,7 @@ class INDIRECTTEXTUREPLUGIN_API UMaterialExpressionIndirectTextureObject : publi
 	virtual int32 Compile(class FMaterialCompiler* Compiler, int32 OutputIndex) override;
 	virtual UTexture* GetReferencedTexture() const override;
 	virtual bool CanReferenceTexture() const override;
+	virtual FText GetCreationName() const override;
 public:
 
 	UPROPERTY(meta = (RequiredInput = "true"), EditAnywhere, BlueprintReadWrite, Category = "IndirectTexture")
@@ -29,7 +30,7 @@ public:
 	FExpressionInput UVInput;
 
 	UPROPERTY()
-	FExpressionOutput RGBOutput;
+	FExpressionOutput TileIndexOutput;
 
 	UPROPERTY()
 	FExpressionOutput UVOutput;
