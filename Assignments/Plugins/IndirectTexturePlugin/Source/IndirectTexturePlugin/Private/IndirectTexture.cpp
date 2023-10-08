@@ -15,10 +15,13 @@ void UIndirectTexture::CreateIndirectTexture()
 	{
 		return;
 	}
+	IndirectTexture->MipGenSettings = TMGS_NoMipmaps;
 	IndirectTexture->CompressionSettings = TextureCompressionSettings::TC_Default;
 	IndirectTexture->SRGB = false;
 	IndirectTexture->AddToRoot();
 	IndirectTexture->Filter = TextureFilter::TF_Nearest;
+	IndirectTexture->AddressX = TA_Clamp;
+	IndirectTexture->AddressY= TA_Clamp;
 
 	FTexture2DMipMap& Mip = IndirectTexture->PlatformData->Mips[0];
 	void* Data = Mip.BulkData.Lock(LOCK_READ_WRITE);
@@ -26,7 +29,7 @@ void UIndirectTexture::CreateIndirectTexture()
 	{
 		return;
 	}
-	FColor* ColorData = static_cast<FColor*>(Data);
+	float* ColorData = static_cast<float*>(Data);
 
 	const int32 MaxTilesCount = (TilesetTilesCount.X * TilesetTilesCount.Y) - 1;
 	for (int32 y = 0; y < IndirectTextureResolution.Y; y++)
@@ -35,7 +38,7 @@ void UIndirectTexture::CreateIndirectTexture()
 		{
 			int32 CurrentPixelIndex = (y * IndirectTextureResolution.X) + x;
 			int32 TileIndex = FMath::RandRange(0, MaxTilesCount);
-			ColorData[CurrentPixelIndex] = FColor(TileIndex, TileIndex, TileIndex);
+			ColorData[CurrentPixelIndex] = static_cast<float>(TileIndex);
 		}
 	}
 

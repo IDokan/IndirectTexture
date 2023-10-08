@@ -42,11 +42,11 @@ int32 UMaterialExpressionIndirectTextureObject::Compile(FMaterialCompiler* Compi
 		break;
 	}
 
-	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
+	int32 IndirectTextureTextureReferenceIndex = Compiler->Texture(IndirectTexture->IndirectTexture, EMaterialSamplerType::SAMPLERTYPE_Data);
 
 	int32 UVs = UVInput.Compile(Compiler);
 
-	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_LinearGrayscale);
+	return Compiler->TextureSample(IndirectTextureTextureReferenceIndex, UVs, EMaterialSamplerType::SAMPLERTYPE_Data);
 }
 
 UTexture* UMaterialExpressionIndirectTextureObject::GetReferencedTexture() const
